@@ -1,0 +1,260 @@
+\documentclass[8pt, aspectratio=169]{beamer}
+
+% Theme
+\usetheme[
+  palette=darkred,                   % color profile: rose | darkred
+  header=transparent,                % frame title: filled | transparent
+  sidebar=left,
+  progressbar=none,
+  numbering=shifted,
+  subsectionpage=progressbarextended,
+]{crns}
+\setbeamercovered{transparent}
+\setbeamertemplate{section in toc}[sections numbered]
+
+% Fonts: Kurier for text, Latin Modern for math
+\usefonttheme{professionalfonts}     % keep beamer from overriding the math font
+\usepackage{lmodern}
+\usepackage{kurier}                  % after lmodern, so text stays in Kurier
+\usepackage[french]{babel}
+
+% Packages used by the showcase slides
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+
+% Title page
+\title{\huge Presentation Title}
+\subtitle{Subtitle}
+\author{\huge Achraf Ben-Hamadou}
+\institute{\normalsize achraf.benhamadou@crns.rnrt.tn}
+\date{\normalsize Assistant Professor\\Digital Research Centre of Sfax}
+
+\begin{document}
+\maketitle
+
+\begin{frame}{Plan}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents[hideallsubsections]
+  %\tableofcontents
+\end{frame}
+
+\section{Section 1}
+%--------------------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Slide's title}
+
+\end{frame}
+%--------------------------------------------------------------------------------------------------------------------------------
+\begin{frame}[fragile]{Slide's title}{Slide's subtitle}
+  A frame subtitle is given as a second argument to the frame:
+  \begin{verbatim}\begin{frame}{Slide's title}{Slide's subtitle}\end{verbatim}
+  or with \verb|\framesubtitle{...}| inside the frame.
+\end{frame}
+%--------------------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------------------
+%--------------------------------------------------------------------------------------------------------------------------------
+\section{Section 2}
+\subsection{Sub-section 2.1}
+%--------------------------------------------------------------------------------------------------------------------------------
+
+\section{Elements}
+
+\begin{frame}[fragile]{Typography}
+      \begin{verbatim}The theme provides sensible defaults to
+\emph{emphasize} text, \alert{accent} parts
+or show \textbf{bold} results.\end{verbatim}
+
+  \begin{center}becomes\end{center}
+
+  The theme provides sensible defaults to \emph{emphasize} text,
+  \alert{accent} parts or show \textbf{bold} results.
+\end{frame}
+
+\begin{frame}{Font feature test}
+  \begin{itemize}
+    \item Regular
+    \item \textit{Italic}
+    \item \textsc{Small Caps}
+    \item \textbf{Bold}
+    \item \textbf{\textit{Bold Italic}}
+    \item \textbf{\textsc{Bold Small Caps}}
+    \item \texttt{Monospace}
+    \item \texttt{\textit{Monospace Italic}}
+    \item \texttt{\textbf{Monospace Bold}}
+    \item \texttt{\textbf{\textit{Monospace Bold Italic}}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Mathematics}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+      Fourier transform and Basel problem
+      \[
+        \hat{f}(\xi) = \int_{-\infty}^{+\infty} f(x)\, e^{-2\pi i x \xi}\, \mathrm{d}x
+        \qquad
+        \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
+      \]
+      Variational lower bound
+      \begin{align*}
+        \log p_\theta(\mathbf{x}) \geq{}&
+        \mathbb{E}_{q_\phi(\mathbf{z} \mid \mathbf{x})}
+        \big[ \log p_\theta(\mathbf{x} \mid \mathbf{z}) \big] \\
+        &- D_{\mathrm{KL}}\big( q_\phi(\mathbf{z} \mid \mathbf{x}) \,\|\, p(\mathbf{z}) \big)
+      \end{align*}
+      Scaled dot-product attention
+      \[
+        \operatorname{Attention}(Q, K, V) =
+        \operatorname{softmax}\!\left( \frac{Q K^{\top}}{\sqrt{d_k}} \right) V
+      \]
+
+    \column{0.5\textwidth}
+      Diffusion forward process
+      \begin{align*}
+        q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) &=
+          \mathcal{N}\big(\mathbf{x}_t ; \sqrt{1-\beta_t}\, \mathbf{x}_{t-1}, \beta_t \mathbf{I}\big) \\
+        q(\mathbf{x}_t \mid \mathbf{x}_0) &=
+          \mathcal{N}\big(\mathbf{x}_t ; \sqrt{\bar{\alpha}_t}\, \mathbf{x}_0, (1-\bar{\alpha}_t) \mathbf{I}\big) \\
+        \text{with} \quad \bar{\alpha}_t &= \prod_{s=1}^{t} (1-\beta_s)
+      \end{align*}
+      Matrices and cases
+      \[
+        \mathbf{R}_\theta =
+        \begin{pmatrix}
+          \cos\theta & -\sin\theta \\
+          \sin\theta & \cos\theta
+        \end{pmatrix}
+        \quad
+        \operatorname{ReLU}(x) =
+        \begin{cases}
+          x & \text{if } x > 0 \\
+          0 & \text{otherwise}
+        \end{cases}
+      \]
+      Alphabets
+      \[
+        \alpha\beta\gamma\delta\epsilon\lambda\mu\sigma\omega
+        \quad \Gamma\Delta\Theta\Lambda\Sigma\Omega
+        \quad \mathbb{R}\mathbb{N}\mathbb{Z}
+        \quad \mathcal{L}\mathcal{N}\mathcal{X}
+        \quad \mathbf{x}\mathbf{W}
+      \]
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Lists}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.33\textwidth}
+      Items
+      \begin{itemize}
+        \item Milk \item Eggs \item Potatoes
+      \end{itemize}
+
+    \column{0.33\textwidth}
+      Enumerations
+      \begin{enumerate}
+        \item First, \item Second and \item Last.
+      \end{enumerate}
+
+    \column{0.33\textwidth}
+      Descriptions
+      \begin{description}
+        \item[PowerPoint] Meeh. \item[Beamer] Yeeeha.
+      \end{description}
+  \end{columns}
+\end{frame}
+\begin{frame}{Animation}
+  \begin{itemize}[<+- | alert@+>]
+    \item \alert<4>{This is\only<4>{ really} important}
+    \item Now this
+    \item And now this
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Figures}
+  \begin{figure}
+    \newcounter{density}
+    \setcounter{density}{20}
+    \begin{tikzpicture}
+      \def\couleur{alerted text.fg}
+      \path[coordinate] (0,0)  coordinate(A)
+                  ++( 90:5cm) coordinate(B)
+                  ++(0:5cm) coordinate(C)
+                  ++(-90:5cm) coordinate(D);
+      \draw[fill=\couleur!\thedensity] (A) -- (B) -- (C) --(D) -- cycle;
+      \foreach \x in {1,...,40}{%
+          \pgfmathsetcounter{density}{\thedensity+20}
+          \setcounter{density}{\thedensity}
+          \path[coordinate] coordinate(X) at (A){};
+          \path[coordinate] (A) -- (B) coordinate[pos=.10](A)
+                              -- (C) coordinate[pos=.10](B)
+                              -- (D) coordinate[pos=.10](C)
+                              -- (X) coordinate[pos=.10](D);
+          \draw[fill=\couleur!\thedensity] (A)--(B)--(C)-- (D) -- cycle;
+      }
+    \end{tikzpicture}
+    \caption{Rotated square from
+    \href{http://www.texample.net/tikz/examples/rotated-polygons/}{texample.net}.}
+  \end{figure}
+\end{frame}
+
+
+\begin{frame}{Tables}
+  \begin{table}
+    \caption{Largest cities in the world (source: Wikipedia)}
+    \begin{tabular}{@{} lr @{}}
+      \toprule
+      City & Population\\
+      \midrule
+      Mexico City & 20,116,842\\
+      Shanghai & 19,210,000\\
+      Peking & 15,796,450\\
+      Istanbul & 14,160,467\\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+\end{frame}
+\begin{frame}{Blocks}
+  Three different block environments are pre-defined and may be styled with an
+  optional background color.
+
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+      \begin{block}{Default}
+        Block content.
+      \end{block}
+
+      \begin{alertblock}{Alert}
+        Block content.
+      \end{alertblock}
+
+      \begin{exampleblock}{Example}
+        Block content.
+      \end{exampleblock}
+
+    \column{0.5\textwidth}
+
+      \crnsset{block=fill}
+
+      \begin{block}{Default}
+        Block content.
+      \end{block}
+
+      \begin{alertblock}{Alert}
+        Block content.
+      \end{alertblock}
+
+      \begin{exampleblock}{Example}
+        Block content.
+      \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[standout, noframenumbering]
+\huge{Thanks for your attention}
+\end{frame}
+
+\end{document}
+%--------------------------------------------------------------------------------------------------------------------------------
+

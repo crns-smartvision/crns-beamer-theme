@@ -1,0 +1,201 @@
+%% ---------------------------------------------------------------------------
+%% SMARTS CRNS Beamer theme
+%% Copyright 2022-2026 Achraf Ben-Hamadou
+%% https://github.com/abenhamadou/smarts_crns_beamerclass_template
+%%
+%% Derived from the Metropolis theme, Copyright 2015 Matthias Vogelgesang
+%% and the LaTeX community, https://github.com/matze/mtheme
+%%
+%% This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
+%% International License (https://creativecommons.org/licenses/by-sa/4.0/).
+%% Redistributions must keep this notice and credit the repository above.
+%% See LICENSE and NOTICE.md.
+%% ---------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamercolorthemecrns}[2017/01/23 CRNS color theme]
+\RequirePackage{pgfopts}
+
+\pgfkeys{
+  /crns/color/block/.cd,
+    .is choice,
+    transparent/.code=\crns@block@transparent,
+    fill/.code=\crns@block@fill,
+}
+\pgfkeys{
+  /crns/color/background/.cd,
+    .is choice,
+    dark/.code=\crns@colors@dark,
+    light/.code=\crns@colors@light,
+}
+%%%%%%%%%%%%%%%%%%%%%
+% Added by ABH: options to set the header filled or transparent
+%%%%%%%%%%%%%%%%%%%%%
+\pgfkeys{
+  /crns/color/header/.cd,
+    .is choice,
+    filled/.code=\crns@header@filled,
+    transparent/.code=\crns@header@transparent,
+}
+
+\newcommand{\crns@header@filled}{
+  \setbeamercolor{frametitle}{%
+    fg=normal text.bg,
+    bg=crnsprimary
+  }
+}
+
+\newcommand{\crns@header@transparent}{
+  \setbeamercolor{frametitle}{%
+    fg=crnsprimary,
+    bg=
+  }
+}
+%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%
+% Color palette profile: \usetheme[palette=rose|darkred]{crns}
+% A profile defines every named color of the theme:
+%   crnsprimary  frame title, frame numbers, header fill
+%   crnstext     normal text (background in dark mode)
+%   crnspaper    page background (text in dark mode)
+%   crnsalert    \alert, alertblock titles
+%   crnsblock    block titles (default blocks)
+%   crnsexample  exampleblock titles
+% and the progress bar colors (progress bars, title separator).
+% To add a profile, define \crns@palette@<name> and add <name>/.code below.
+%%%%%%%%%%%%%%%%%%%%%
+\pgfkeys{
+  /crns/color/palette/.cd,
+    .is choice,
+    rose/.code=\crns@palette@rose,
+    darkred/.code=\crns@palette@darkred,
+}
+
+% rose: muted primary, progress bars in the primary color
+\newcommand{\crns@palette@rose}{
+  \definecolor{crnsprimary}{HTML}{bb8484}
+  \definecolor{crnstext}{HTML}{23373b}
+  \colorlet{crnspaper}{black!2}
+  \definecolor{crnsalert}{HTML}{ca242c}
+  \colorlet{crnsblock}{crnstext}
+  \definecolor{crnsexample}{HTML}{14b03d}
+  \setbeamercolor{progress bar}{%
+    fg=crnsprimary,
+    bg=crnsprimary!50!black!20
+  }
+  \colorlet{mDarkRed}{crnsprimary} % backward compatibility
+}
+
+% darkred: original CRNS red (#ae2626), progress bars in the primary color
+\newcommand{\crns@palette@darkred}{
+  \definecolor{crnsprimary}{HTML}{ae2626}
+  \definecolor{crnstext}{HTML}{23373b}
+  \colorlet{crnspaper}{black!2}
+  \colorlet{crnsalert}{crnsprimary}
+  \colorlet{crnsblock}{crnstext}
+  \definecolor{crnsexample}{HTML}{1f6f6b} % deep teal
+  \setbeamercolor{progress bar}{%
+    fg=crnsprimary,
+    bg=crnsprimary!50!black!30
+  }
+  \colorlet{mDarkRed}{crnsprimary} % backward compatibility
+}
+
+
+\newcommand{\crns@color@setdefaults}{
+  \pgfkeys{/crns/color/.cd,
+    palette=rose,
+    background=light,
+    block=transparent,
+    header=filled, % ABH
+  }
+}
+
+
+\newcommand{\crns@colors@dark}{
+  \setbeamercolor{normal text}{%
+    fg=crnspaper,
+    bg=crnstext
+  }
+  \usebeamercolor[fg]{normal text}
+}
+\newcommand{\crns@colors@light}{
+  \setbeamercolor{normal text}{%
+    fg=crnstext,
+    bg=crnspaper
+  }
+}
+\setbeamercolor{alerted text}{%
+  fg=crnsalert
+}
+\setbeamercolor{example text}{%
+  fg=crnsexample
+}
+\setbeamercolor{titlelike}{use=normal text, parent=normal text}
+\setbeamercolor{author}{use=normal text, parent=normal text}
+\setbeamercolor{date}{use=normal text, parent=normal text}
+\setbeamercolor{institute}{use=normal text, parent=normal text}
+\setbeamercolor{structure}{use=normal text, fg=normal text.fg}
+\setbeamercolor{palette primary}{%
+  use=normal text,
+  fg=normal text.bg,
+  bg=normal text.fg
+}
+% frametitle colors are set by the header option, progress bar by the palette
+\setbeamercolor{title separator}{
+  use=progress bar,
+  parent=progress bar
+}
+\setbeamercolor{progress bar in head/foot}{%
+  use=progress bar,
+  parent=progress bar
+}
+\setbeamercolor{progress bar in section page}{
+  use=progress bar,
+  parent=progress bar
+}
+\newcommand{\crns@block@transparent}{
+  \setbeamercolor{block title}{%
+    use=normal text,
+    fg=crnsblock,
+    bg=
+  }
+  \setbeamercolor{block body}{
+    bg=
+  }
+}
+\newcommand{\crns@block@fill}{
+  \setbeamercolor{block title}{%
+    use=normal text,
+    fg=crnsblock,
+    bg=normal text.bg!80!normal text.fg % gray, independent of crnsblock
+  }
+  \setbeamercolor{block body}{
+    use={block title, normal text},
+    bg=block title.bg!50!normal text.bg
+  }
+}
+\setbeamercolor{block title alerted}{%
+    use={block title, alerted text},
+    bg=block title.bg,
+    fg=alerted text.fg
+}
+\setbeamercolor{block title example}{%
+    use={block title, example text},
+    bg=block title.bg,
+    fg=example text.fg
+}
+\setbeamercolor{block body alerted}{use=block body, parent=block body}
+\setbeamercolor{block body example}{use=block body, parent=block body}
+\setbeamercolor{footnote}{fg=normal text.fg!90}
+\setbeamercolor{footnote mark}{fg=.}
+\setbeamercolor{bibliography entry author}{fg=, bg=}
+\setbeamercolor{bibliography entry title}{fg=, bg=}
+\setbeamercolor{bibliography entry location}{fg=, bg=}
+\setbeamercolor{bibliography entry note}{fg=, bg=}
+\crns@color@setdefaults
+\ProcessPgfPackageOptions{/crns/color}
+\mode<all>
+\endinput
+%%
+%% End of file `beamercolorthemecrns.sty'.

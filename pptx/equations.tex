@@ -1,0 +1,96 @@
+% Equations and figure of the showcase deck, rendered as images for the PPTX
+% template. One page per item; pptx/build.sh turns each page into a PNG.
+% Typeset at 10pt; the generator scales the images to the 17pt body text.
+\documentclass[multi=piece, border=2pt, 10pt]{standalone}
+\usepackage{lmodern}
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\definecolor{crnstext}{HTML}{23373b}
+\definecolor{crnsprimary}{HTML}{ae2626}
+\newenvironment{piece}{\hbox\bgroup\color{crnstext}}{\egroup}
+
+\begin{document}
+
+% 1: Fourier transform and Basel problem
+\begin{piece}$\displaystyle
+  \hat{f}(\xi) = \int_{-\infty}^{+\infty} f(x)\, e^{-2\pi i x \xi}\, \mathrm{d}x
+  \qquad
+  \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
+$\end{piece}
+
+% 2: Variational lower bound
+\begin{piece}$\begin{aligned}
+  \log p_\theta(\mathbf{x}) \geq{}&
+  \mathbb{E}_{q_\phi(\mathbf{z} \mid \mathbf{x})}
+  \big[ \log p_\theta(\mathbf{x} \mid \mathbf{z}) \big] \\
+  &- D_{\mathrm{KL}}\big( q_\phi(\mathbf{z} \mid \mathbf{x}) \,\|\, p(\mathbf{z}) \big)
+\end{aligned}$\end{piece}
+
+% 3: Scaled dot-product attention
+\begin{piece}$\displaystyle
+  \operatorname{Attention}(Q, K, V) =
+  \operatorname{softmax}\!\left( \frac{Q K^{\top}}{\sqrt{d_k}} \right) V
+$\end{piece}
+
+% 4: Diffusion forward process
+\begin{piece}$\begin{aligned}
+  q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) &=
+    \mathcal{N}\big(\mathbf{x}_t ; \sqrt{1-\beta_t}\, \mathbf{x}_{t-1}, \beta_t \mathbf{I}\big) \\
+  q(\mathbf{x}_t \mid \mathbf{x}_0) &=
+    \mathcal{N}\big(\mathbf{x}_t ; \sqrt{\bar{\alpha}_t}\, \mathbf{x}_0, (1-\bar{\alpha}_t) \mathbf{I}\big) \\
+  \text{with} \quad \bar{\alpha}_t &= \prod_{s=1}^{t} (1-\beta_s)
+\end{aligned}$\end{piece}
+
+% 5: Matrices and cases
+\begin{piece}$\displaystyle
+  \mathbf{R}_\theta =
+  \begin{pmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta
+  \end{pmatrix}
+  \quad
+  \operatorname{ReLU}(x) =
+  \begin{cases}
+    x & \text{if } x > 0 \\
+    0 & \text{otherwise}
+  \end{cases}
+$\end{piece}
+
+% 6: Alphabets
+\begin{piece}$
+  \alpha\beta\gamma\delta\epsilon\lambda\mu\sigma\omega
+  \quad \Gamma\Delta\Theta\Lambda\Sigma\Omega
+  \quad \mathbb{R}\mathbb{N}\mathbb{Z}
+  \quad \mathcal{L}\mathcal{N}\mathcal{X}
+  \quad \mathbf{x}\mathbf{W}
+$\end{piece}
+
+% 7: Rotated squares figure (same drawing as the Figures slide)
+\begin{piece}
+  \newcounter{density}
+  \setcounter{density}{20}
+  \begin{tikzpicture}
+    \def\couleur{crnsprimary}
+    \path[coordinate] (0,0)  coordinate(A)
+                ++( 90:5cm) coordinate(B)
+                ++(0:5cm) coordinate(C)
+                ++(-90:5cm) coordinate(D);
+    \draw[fill=\couleur!\thedensity] (A) -- (B) -- (C) --(D) -- cycle;
+    \foreach \x in {1,...,40}{%
+        \pgfmathsetcounter{density}{\thedensity+20}
+        \setcounter{density}{\thedensity}
+        \path[coordinate] coordinate(X) at (A){};
+        \path[coordinate] (A) -- (B) coordinate[pos=.10](A)
+                            -- (C) coordinate[pos=.10](B)
+                            -- (D) coordinate[pos=.10](C)
+                            -- (X) coordinate[pos=.10](D);
+        \draw[fill=\couleur!\thedensity] (A)--(B)--(C)-- (D) -- cycle;
+    }
+  \end{tikzpicture}
+\end{piece}
+
+% 8: frame subtitle marker, as in the outer theme (16pt hook arrow)
+\begin{piece}{\fontsize{16pt}{16pt}\selectfont\color{crnsprimary}$\hookrightarrow$}\end{piece}
+
+\end{document}

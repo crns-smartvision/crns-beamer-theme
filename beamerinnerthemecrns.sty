@@ -1,0 +1,397 @@
+%% ---------------------------------------------------------------------------
+%% SMARTS CRNS Beamer theme
+%% Copyright 2022-2026 Achraf Ben-Hamadou
+%% https://github.com/abenhamadou/smarts_crns_beamerclass_template
+%%
+%% Derived from the Metropolis theme, Copyright 2015 Matthias Vogelgesang
+%% and the LaTeX community, https://github.com/matze/mtheme
+%%
+%% This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
+%% International License (https://creativecommons.org/licenses/by-sa/4.0/).
+%% Redistributions must keep this notice and credit the repository above.
+%% See LICENSE and NOTICE.md.
+%% ---------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerinnerthemecrns}[2017/01/23 CRNS inner theme]
+\RequirePackage{etoolbox}
+\RequirePackage{keyval}
+\RequirePackage{calc}
+\RequirePackage{pgfopts}
+\RequirePackage{tikz}
+\RequirePackage{adjustbox}
+\RequirePackage{pgffor}
+
+
+
+% ABH Define section and subsection font sizes
+\newcommand{\CRNSSectionFont}{\fontsize{14pt}{14pt}\selectfont}
+\newcommand{\CRNSSubsectionFont}{\fontsize{10pt}{10pt}\selectfont}
+\setbeamerfont{section in toc}{size=\large,series=\bfseries}
+\setbeamerfont{subsection in toc}{size=\normalsize,series=\mdseries}
+
+
+\newcommand{\showverticalsubsections}{
+  \begin{itemize}
+    \foreach \sub in {Education,Sub2,Sub3}{%
+      \ifx\sub\insertsubsectionhead
+        \item \CRNSSubsectionFont\sub % highlight current subsection
+      \else
+        \item \textcolor{gray}{\sub} % others in gray
+      \fi
+    }
+  \end{itemize}
+}
+
+
+\pgfkeys{
+  /crns/inner/sectionpage/.cd,
+    .is choice,
+    none/.code=\crns@disablesectionpage,
+    simple/.code={\crns@enablesectionpage
+                  \setbeamertemplate{section page}[simple]},
+    progressbar/.code={\crns@enablesectionpage
+                       \setbeamertemplate{section page}[progressbar]},
+}
+\pgfkeys{
+  /crns/inner/subsectionpage/.cd,
+    .is choice,
+    none/.code=\crns@disablesubsectionpage,
+    simple/.code={\crns@enablesubsectionpage
+                  \setbeamertemplate{section page}[simple]},
+    progressbar/.code={\crns@enablesubsectionpage
+                       \setbeamertemplate{section page}[progressbar]},
+    progressbarextended/.code={\crns@enablesubsectionpage
+                       \setbeamertemplate{subsection page}[progressbarextended]},
+}
+\newcommand{\crns@inner@setdefaults}{
+  \pgfkeys{/crns/inner/.cd,
+    sectionpage=progressbar,
+    subsectionpage=none
+  }
+}
+
+
+
+\setbeamertemplate{title page}{
+  \begin{minipage}[b][\paperheight]{\textwidth}
+    %\ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
+    \usebeamertemplate*{title graphic}
+    \vfill%
+    \vspace{2cm}
+    \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
+    \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
+    \usebeamertemplate*{title separator}
+    \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+    \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+    \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+    \vfill
+    \vspace*{1mm}
+  \end{minipage}
+}
+\def\maketitle{%
+  \ifbeamer@inframe
+    \titlepage
+  \else
+    \frame[plain,noframenumbering]{\titlepage}
+  \fi
+}
+\def\titlepage{%
+  \usebeamertemplate{title page}
+}
+\setbeamertemplate{title graphic}{
+  \vbox to 0pt {
+  	%ABH removed the vertical space to align with page canvas
+    \hspace*{-3.75em}
+    \includegraphics[width=\paperwidth, height=\paperheight]{graphics/titlepage_background_v3.pdf}
+}
+\nointerlineskip%
+}
+
+\setbeamertemplate{standout graphics}{
+\vbox to 0pt{        \hspace*{-3.75em}        \vspace*{-50em}           
+\includegraphics[width=\paperwidth, height=\paperheight]{logos/background_standout.eps} 
+}
+  \nointerlineskip%
+}
+
+
+\setbeamertemplate{title}{
+  \raggedright%
+  \linespread{1.0}%
+  \inserttitle%
+  \par%
+  \vspace*{0.5em}
+}
+\setbeamertemplate{subtitle}{
+  \raggedright%
+  \insertsubtitle%
+  \par%
+  \vspace*{0.5em}
+}
+\newlength{\crns@titleseparator@linewidth}
+\setlength{\crns@titleseparator@linewidth}{0.4pt}
+\setbeamertemplate{title separator}{
+  \tikzexternaldisable%
+  \begin{tikzpicture}
+    \fill[fg] (0,0) rectangle (0.75\textwidth, \crns@titleseparator@linewidth);
+  \end{tikzpicture}%
+  \tikzexternalenable%
+  \par%
+}
+\setbeamertemplate{author}{
+  \vspace*{2em}
+  \insertauthor%
+  \par%
+  \vspace*{0.25em}
+}
+\setbeamertemplate{date}{
+  \insertdate%
+  \par%
+}
+\setbeamertemplate{institute}{
+  \vspace*{3mm}
+  \insertinstitute%
+  \par%
+}
+\defbeamertemplate{section page}{simple}{
+  \begin{center}
+    \usebeamercolor[fg]{section title}
+	\CRNSSectionFont
+    \insertsectionhead\par
+    \ifx\insertsubsectionhead\@empty\else
+      \usebeamercolor[fg]{subsection title}
+      \usebeamerfont{subsection title}
+      \insertsubsectionhead
+    \fi
+  \end{center}
+}
+\defbeamertemplate{section page}{progressbar}{
+  \centering
+  \begin{minipage}{35em}
+  	\vspace*{-0.3\textheight} 
+    \raggedright
+    \usebeamercolor[fg]{section title}
+	\CRNSSectionFont
+    \insertsectionhead\\[-1ex]
+    \usebeamertemplate*{progress bar in section page}
+    \par
+    \ifx\insertsubsectionhead\@empty\else%
+      \usebeamercolor[fg]{subsection title}%
+      \usebeamerfont{subsection title}%
+      \insertsubsectionhead
+    \fi
+  \end{minipage}
+  \par
+  \vspace{\baselineskip}
+}
+
+
+\defbeamertemplate{subsection page}{progressbarextended}{
+  \centering
+  \begin{minipage}{35em}
+%   \vspace*{-0.3\textheight} 
+%    \raggedright
+%    \usebeamercolor[fg]{section title}
+%	\CRNSSectionFont
+%    \insertsectionhead\\%[-1ex]
+
+	% Progress bar
+    \usebeamertemplate*{progress bar in section page}
+\vspace*{10pt}    
+    \par 
+    \CRNSSubsectionFont
+\tableofcontents[
+  hideothersubsections,                % only subsections of current section are considered
+  sectionstyle=show/shaded,            % current section normal, others dimmed
+  subsectionstyle=shaded/hide,         % current subsection shown, others dimmed
+  currentsubsection                     % mark current subsection
+	]
+  \end{minipage}
+  \par
+  \vspace{\baselineskip}
+}
+
+% Option 1
+%\defbeamertemplate{section page}{progressbarextended}{
+%  \centering
+%  \begin{minipage}{35em}
+%    \vspace*{-0.3\textheight}
+%    \raggedright
+%    % Section title
+%    \usebeamercolor[fg]{section title}
+%    \usebeamerfont{section title}
+%    \insertsectionhead\\[-1ex]
+%
+%    % Progress bar (same as in progressbar)
+%    \usebeamertemplate*{progress bar in section page}
+%    \par\vspace{1ex}
+%
+%    % Subsection list with highlight
+%    \begin{itemize}
+%      \foreach \i in {1,...,\insertsubsectionnumber} {%
+%        \ifnum\i=\thesubsection
+%          \item[\textbf{$\blacktriangleright$}] 
+%          \usebeamercolor[fg]{subsection title}\usebeamerfont{subsection title}\insertsubsectionhead
+%        \else
+%          \item[\textcolor{gray}{$\bullet$}] Subsection \i
+%        \fi
+%      }
+%    \end{itemize}
+%  \end{minipage}
+%  \par
+%  \vspace{\baselineskip}
+%}
+
+
+
+%% for section page, transition between sections
+\newcommand{\crns@disablesectionpage}{
+  \AtBeginSection{
+    % intentionally empty
+  }
+}
+\newcommand{\crns@enablesectionpage}{
+  \AtBeginSection{
+    \ifbeamer@inframe
+      \sectionpage
+    \else
+      \frame[plain,c,noframenumbering]{\sectionpage}
+    \fi
+  }
+}
+\setbeamertemplate{subsection page}{%
+  \usebeamertemplate*{section page}
+}
+\newcommand{\crns@disablesubsectionpage}{
+  \AtBeginSubsection{
+    % intentionally empty
+  }
+}
+\newcommand{\crns@enablesubsectionpage}{
+  \AtBeginSubsection{
+    \ifbeamer@inframe
+      \subsectionpage
+    \else
+      \frame[plain,c,noframenumbering]{\subsectionpage}
+    \fi
+  }
+}
+\newlength{\crns@progressonsectionpage}
+\newlength{\crns@progressonsectionpage@linewidth}
+\setlength{\crns@progressonsectionpage@linewidth}{2pt}
+\setbeamertemplate{progress bar in section page}{
+  \setlength{\crns@progressonsectionpage}{%
+    \textwidth * \ratio{\insertframenumber pt}{\inserttotalframenumber pt}%
+  }%
+  \tikzexternaldisable%
+  \begin{tikzpicture}[yshift=3cm]
+    \fill[bg] (0,0) rectangle (\textwidth, \crns@progressonsectionpage@linewidth);
+    \fill[fg] (0,0) rectangle (\crns@progressonsectionpage, \crns@progressonsectionpage@linewidth);
+  \end{tikzpicture}%
+  \tikzexternalenable%
+}
+\def\inserttotalframenumber{100} % was 100 ABH
+\newlength{\crns@blocksep}
+\newlength{\crns@blockadjust}
+\setlength{\crns@blocksep}{0.75ex}
+\setlength{\crns@blockadjust}{0.25ex}
+\providecommand{\crns@strut}{%
+  \vphantom{ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz()}%
+}
+%TODO ABH
+\newcommand{\crns@block}[1]{
+  \par\vskip\medskipamount%
+  \setlength{\parskip}{0pt}
+  \ifbeamercolorempty[bg]{block title#1}{%
+    \begin{beamercolorbox}[rightskip=0pt plus 4em]{block title#1}}{%
+  \ifbeamercolorempty[bg]{block title}{%
+    \begin{beamercolorbox}[rightskip=0pt plus 4em]{block title#1}%
+  }%
+  {%
+    \begin{beamercolorbox}[
+      sep=\dimexpr\crns@blocksep-\crns@blockadjust\relax,
+      leftskip=\crns@blockadjust,
+      rightskip=\dimexpr\crns@blockadjust plus 4em\relax
+    ]{block title#1}%
+  }}%
+      \usebeamerfont*{block title#1}%
+      \crns@strut%
+      \insertblocktitle%
+      \crns@strut%
+  \end{beamercolorbox}%
+  \nointerlineskip%
+  \ifbeamercolorempty[bg]{block body#1}{%
+    \begin{beamercolorbox}[vmode]{block body#1}}{
+  \ifbeamercolorempty[bg]{block body}{%
+    \begin{beamercolorbox}[vmode]{block body#1}%
+  }{%
+    \begin{beamercolorbox}[sep=\crns@blocksep, vmode]{block body#1}%
+    \vspace{-\crns@parskip}
+  }}%
+      \usebeamerfont{block body#1}%
+      \setlength{\parskip}{\crns@parskip}%
+}
+\setbeamertemplate{block begin}{\crns@block{}}
+\setbeamertemplate{block alerted begin}{\crns@block{ alerted}}
+\setbeamertemplate{block example begin}{\crns@block{ example}}
+\setbeamertemplate{block end}{\end{beamercolorbox}\vspace*{0.2ex}}
+\setbeamertemplate{block alerted end}{\end{beamercolorbox}\vspace*{0.2ex}}
+\setbeamertemplate{block example end}{\end{beamercolorbox}\vspace*{0.2ex}}
+\setbeamertemplate{itemize items}{\textbullet}
+\setbeamertemplate{caption label separator}{: }
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{footnote}{%
+  \parindent 0em\noindent%
+  \raggedright
+  \usebeamercolor{footnote}\hbox to 0.8em{\hfil\insertfootnotemark}\insertfootnotetext\par%
+}
+\newlength{\crns@parskip}
+\setlength{\crns@parskip}{0.5em}
+\setlength{\parskip}{\crns@parskip}
+\linespread{1.15}
+\define@key{beamerframe}{c}[true]{% centered
+  \beamer@frametopskip=0pt plus 1fill\relax%
+  \beamer@framebottomskip=0pt plus 1fill\relax%
+  \beamer@frametopskipautobreak=0pt plus .4\paperheight\relax%
+  \beamer@framebottomskipautobreak=0pt plus .6\paperheight\relax%
+  \def\beamer@initfirstlineunskip{}%
+}
+\providebool{crns@standout}
+\define@key{beamerframe}{standout}[true]{%
+  \booltrue{crns@standout}
+  \begingroup
+    \setkeys{beamerframe}{c}
+    \setkeys{beamerframe}{noframenumbering}
+    %\usebeamertemplate{standout graphics}    
+    \ifbeamercolorempty[bg]{palette primary}{
+      \setbeamercolor{background canvas}{
+        use=palette primary,
+        bg=palette primary.fg
+      }
+    }{
+      \setbeamercolor{background canvas}{
+        use=palette primary,
+        bg=palette primary.bg
+      }
+    }
+    \setbeamercolor{local structure}{
+      fg=palette primary.fg
+      bg=palette primary.bg
+    }
+    \centering
+    \usebeamercolor[bg]{palette primary}
+    \usebeamerfont{standout}
+}
+
+  \apptocmd{\beamer@reseteecodes}{%
+    \ifbool{crns@standout}{
+      \endgroup
+      \boolfalse{crns@standout}
+    }{}
+  }{}{}
+  
+\crns@inner@setdefaults
+\ProcessPgfPackageOptions{/crns/inner}
+\endinput
+%%
+%% End of file `beamerinnerthemecrns.sty'.

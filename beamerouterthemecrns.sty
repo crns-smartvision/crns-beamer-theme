@@ -1,0 +1,241 @@
+%% ---------------------------------------------------------------------------
+%% SMARTS CRNS Beamer theme
+%% Copyright 2022-2026 Achraf Ben-Hamadou
+%% https://github.com/abenhamadou/smarts_crns_beamerclass_template
+%%
+%% Derived from the Metropolis theme, Copyright 2015 Matthias Vogelgesang
+%% and the LaTeX community, https://github.com/matze/mtheme
+%%
+%% This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
+%% International License (https://creativecommons.org/licenses/by-sa/4.0/).
+%% Redistributions must keep this notice and credit the repository above.
+%% See LICENSE and NOTICE.md.
+%% ---------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerouterthemecrns}[2017/01/23 CRNS outer theme]
+\RequirePackage{etoolbox}
+\RequirePackage{calc}
+\RequirePackage{pgfopts}
+\RequirePackage{adjustbox}
+\usepackage{tikz}
+
+
+
+\pgfkeys{
+  /crns/outer/numbering/.cd,
+    .is choice,
+    none/.code=\setbeamertemplate{frame numbering}[none],
+    counter/.code=\setbeamertemplate{frame numbering}[counter],
+    fraction/.code=\setbeamertemplate{frame numbering}[fraction],
+    shifted/.code=\setbeamertemplate{frame numbering}[shifted],
+}
+\pgfkeys{
+  /crns/outer/progressbar/.cd,
+    .is choice,
+    none/.code={%
+      \setbeamertemplate{headline}[plain]
+      \setbeamertemplate{frametitle}[plain]
+      \setbeamertemplate{footline}[plain]
+    },
+    head/.code={\pgfkeys{/crns/outer/progressbar=none}
+      \addtobeamertemplate{headline}{}{%
+        \usebeamertemplate*{progress bar in head/foot}
+      }
+    },
+    frametitle/.code={\pgfkeys{/crns/outer/progressbar=none}
+      \addtobeamertemplate{frametitle}{}{%
+        \usebeamertemplate*{progress bar in head/foot}
+      }
+    },
+    foot/.code={\pgfkeys{/crns/outer/progressbar=none}
+      \addtobeamertemplate{footline}{}{%
+        \usebeamertemplate*{progress bar in head/foot}%
+      }
+    },
+}
+
+% Sidebar option
+\pgfkeys{
+  /crns/outer/sidebar/.cd,
+    .is choice,
+    none/.code={
+      \setbeamertemplate{sidebar left}[custom] % remove sidebar
+      \setbeamertemplate{sidebar right}{}
+    },
+    left/.code={
+      \setbeamertemplate{sidebar left}[sidebar theme] % or your custom template
+      \setbeamertemplate{sidebar right}{} % no right sidebar
+    }
+}
+
+% Add default sidebar choice
+\newcommand{\crns@outer@setdefaults}{
+  \pgfkeys{/crns/outer/.cd,
+    numbering=counter,
+    progressbar=none,
+    sidebar=none,  % default: no sidebar
+  }
+}
+
+\setbeamertemplate{navigation symbols}{}
+
+\usebackgroundtemplate{
+\includegraphics[width=\paperwidth, height=\paperheight]{graphics/main_background_v2.pdf}
+}
+
+
+\defbeamertemplate{frame footer}{none}{}
+\defbeamertemplate{frame footer}{custom}[1]{ #1 }
+\defbeamertemplate{frame numbering}{none}{}
+\defbeamertemplate{frame numbering}{counter}{\insertframenumber}
+\defbeamertemplate{frame numbering}{fraction}{
+  \insertframenumber/\inserttotalframenumber
+}
+\defbeamertemplate{frame numbering}{shifted}
+{%
+	
+  \hfill%
+  %%%%% ABH the color of the page numbering is now set to red and not anymore tied to the frametitle colors
+  %\usebeamercolor[fg]{page number in head/foot}%
+  %\usebeamercolor[fg]{frametitle}
+  \color{crnsprimary}  
+  \usebeamerfont{page number in head/foot}%
+  \insertframenumber\,/\,\inserttotalframenumber\hspace*{33pt}\vspace*{-4pt}\vskip0pt
+}
+
+
+
+\defbeamertemplate{headline}{plain}{}
+\defbeamertemplate{footline}{plain}{%
+  \begin{beamercolorbox}[wd=\textwidth, sep=3ex]{footline}%
+    \usebeamerfont{page number in head/foot}%
+    \usebeamertemplate*{frame footer}
+%    \hfill%
+      \hspace*{\dimexpr0.55\textwidth}%
+    \usebeamertemplate*{frame numbering}
+  \end{beamercolorbox}%
+}
+\newlength{\crns@frametitle@hpadding}
+\setlength{\crns@frametitle@hpadding}{2.2ex} % left/right padding
+
+\newlength{\crns@frametitle@vpadding}
+\setlength{\crns@frametitle@vpadding}{2.2ex} % top/bottom padding
+
+\newcommand{\crns@frametitlestrut@start}{
+  \rule{0pt}{\crns@frametitle@vpadding +%
+    \totalheightof{%
+      \ifcsdef{crns@frametitleformat}{\crns@frametitleformat X}{X}%
+    }%
+  }%
+}
+\newcommand{\crns@frametitlestrut@end}{
+  \rule[0pt]{0pt}{\crns@frametitle@vpadding}%\crns@frametitle@vpadding %-\crns@frametitle@vpadding
+}
+
+
+\defbeamertemplate{sidebar theme}{custom}{%
+  \vbox{%
+    \hsize=2cm % width of sidebar
+    \vskip1ex
+    \insertsectionnavigationhorizontal{\hsize}{}{}{}
+    \vfill
+    \insertframenumber/\inserttotalframenumber
+  }
+}
+
+
+\defbeamertemplate{frametitle}{plain}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[%
+      wd=\paperwidth,%
+      sep=0pt,%
+      leftskip=\crns@frametitle@hpadding,%
+      rightskip=\crns@frametitle@hpadding,%
+    ]{frametitle}%
+    \vfill
+  \crns@frametitlestrut@start%
+  {\fontsize{40pt}{22pt} \usebeamerfont{frametitle}\insertframetitle}
+  \ifx\insertframesubtitle\@empty\else
+  	\par
+  	\vspace{-1.0ex}%
+  	\crns@frametitlestrut@end
+  	\hspace{2em} {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}%
+	{\fontsize{16pt}{16pt}\selectfont\textbf{$\hookrightarrow$}}
+    {\fontsize{9pt}{10pt}\selectfont\itshape % set font size and italic    
+    ~\insertframesubtitle} 
+     %
+   	}
+  \fi
+  \end{beamercolorbox}%
+}
+
+%\defbeamertemplate{frametitle}{plain}{%
+%\nointerlineskip%
+%  %\vskip0pt plus -1fil
+%\begin{beamercolorbox}[%
+%    wd=\paperwidth,%
+%    ht=10.0ex,dp=2.0ex,% <-- increase these values for more vertical space
+%    sep=0pt,%
+%    leftskip=\crns@frametitle@padding,%
+%    rightskip=\crns@frametitle@padding,%
+%  ]{frametitle}
+%%%  \begin{beamercolorbox}[%
+%%%      wd=\paperwidth,%
+%%%      sep=0pt,%
+%%%      leftskip=\crns@frametitle@padding,%
+%%%      rightskip=\crns@frametitle@padding,%
+%%%    ]{frametitle}%
+%
+%
+%%  \crns@frametitlestrut@start%
+%%  \insertframetitle%
+%%  \nolinebreak%
+%%  \crns@frametitlestrut@end%
+%  
+%      \vbox{}% start a vertical box
+%    \raggedright
+%    \usebeamerfont{frametitle}\insertframetitle\par
+%    %% ABH Add subtitle if present
+%    \ifx\insertframesubtitle\@empty\else
+%      \par% small vertical space
+%{\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}%
+%        $\rightarrow$ adoifjdojfi~\insertframesubtitle\par}
+%    \fi
+%  \end{beamercolorbox}%
+%}
+
+
+\setbeamertemplate{frametitle continuation}{%
+  \usebeamerfont{frametitle}
+  \romannumeral \insertcontinuationcount
+}
+\newlength{\crns@progressinheadfoot}
+\newlength{\crns@progressinheadfoot@linewidth}
+\setlength{\crns@progressinheadfoot@linewidth}{0.8pt}
+\setbeamertemplate{progress bar in head/foot}{
+  \nointerlineskip
+  \setlength{\crns@progressinheadfoot}{%
+    \paperwidth * \ratio{\insertframenumber pt}{\inserttotalframenumber pt}%
+  }%
+  \begin{beamercolorbox}[wd=\paperwidth]{progress bar in head/foot}
+    \tikzexternaldisable%
+    \begin{tikzpicture}
+      \fill[bg] (0,0) rectangle (0.6\paperwidth, \crns@progressinheadfoot@linewidth);
+      \fill[fg] (0,0) rectangle (\crns@progressinheadfoot, \crns@progressinheadfoot@linewidth);
+    \end{tikzpicture}%
+    \tikzexternalenable%
+  \end{beamercolorbox}
+}
+\AtBeginDocument{%
+  \apptocmd{\appendix}{%
+    \pgfkeys{%
+      /crns/outer/.cd,
+      numbering=none,
+      progressbar=none}
+    }{}{}
+}
+\crns@outer@setdefaults
+\ProcessPgfPackageOptions{/crns/outer}
+\endinput
+%%
+%% End of file `beamerouterthemecrns.sty'.
