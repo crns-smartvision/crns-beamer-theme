@@ -1,4 +1,4 @@
-# SMARTS CRNS Beamer theme
+# CRNS Beamer theme
 
 A Beamer theme for presentations at the Digital Research Centre of Sfax
 (CRNS), based on the [Metropolis](https://github.com/matze/mtheme) theme.
@@ -65,13 +65,13 @@ missing:
 ## Quick start
 
 ```bash
-git clone https://github.com/abenhamadou/smarts_crns_beamerclass_template.git
-cd smarts_crns_beamerclass_template
-./build.sh template      # writes build/template.pdf
+git clone https://github.com/crns-smartvision/crns-beamer-theme.git 
+cd crns-beamer-theme
+./build.sh main      # writes build/main.pdf
 ```
 
 To start a new presentation, copy the five `beamer*themecrns.sty` files and
-`template.tex` into your project, rename `template.tex`, and replace the
+`main.tex` into your project, rename `main.tex`, and replace the
 title page fields and the slides.
 
 ### Background images

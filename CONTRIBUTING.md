@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in improving the SMARTS CRNS Beamer theme.
+Thanks for your interest in improving the CRNS Beamer theme.
 Bug reports, suggestions and pull requests are all welcome.
 
 ## Reporting a bug or suggesting a feature
