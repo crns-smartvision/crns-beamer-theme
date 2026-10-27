@@ -1,8 +1,8 @@
 # Notice
 
-**SMARTS CRNS Beamer theme**
+**CRNS Beamer theme**
 Copyright © 2022–2026 Achraf Ben-Hamadou
-<https://github.com/abenhamadou/smarts_crns_beamerclass_template>
+<https://github.com/abenhamadou/crns-beamer-theme>
 
 This work is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
@@ -15,7 +15,7 @@ appropriate credit. Please keep this notice and the license headers in the
 `.sty` files, and credit the project with:
 
 > Based on the SMARTS CRNS Beamer theme by Achraf Ben-Hamadou,
-> <https://github.com/abenhamadou/smarts_crns_beamerclass_template>,
+> <https://github.com/abenhamadou/crns-beamer-theme>,
 > licensed under CC BY-SA 4.0.
 
 Modified versions must be released under CC BY-SA 4.0 (or a license listed
