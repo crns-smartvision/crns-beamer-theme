@@ -6,7 +6,7 @@ Bug reports, suggestions and pull requests are all welcome.
 ## Reporting a bug or suggesting a feature
 
 Open an issue on
-<https://github.com/abenhamadou/smarts_crns_beamerclass_template/issues>.
+<https://github.com/crns-smartvision/crns-beamer-theme/issues>.
 Before opening a new one, check that it has not already been reported.
 
 For a bug, include:
@@ -23,9 +23,9 @@ would be used from the `\usetheme[...]{crns}` options.
 1. **Fork** the repository on GitHub and clone your fork:
 
    ```bash
-   git clone git@github.com:<your-user>/smarts_crns_beamerclass_template.git
-   cd smarts_crns_beamerclass_template
-   git remote add upstream git@github.com:abenhamadou/smarts_crns_beamerclass_template.git
+   git clone git@github.com:<your-user>/crns-beamer-theme.git
+   cd crns-beamer-theme
+   git remote add upstream git@github.com:abenhamadou/crns-beamer-theme.git
    ```
 
 2. **Create a branch** from the latest default branch, named after the change:
