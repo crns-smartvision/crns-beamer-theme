@@ -1,6 +1,7 @@
 #!/bin/bash
 ## Usage: pptx/build.sh
-## Builds pptx/crns_template.pptx, the PowerPoint version of the crns theme.
+## Builds the PowerPoint version of the crns theme, once per title background:
+## pptx/crns_template.pptx (crns) and pptx/smarts_template.pptx (smarts).
 ##
 ## Needs: pdflatex, poppler (pdftoppm, pdftocairo, pdfinfo), node with
 ## pptxgenjs (set NODE_PATH to its node_modules folder if it is installed
@@ -14,7 +15,8 @@ mkdir -p "$ASSETS"
 
 # Backgrounds at 200 dpi of the 13.333 x 7.5 in slide
 pdftoppm -png -singlefile -scale-to-x 2667 -scale-to-y 1500 ../graphics/main_background_v2.pdf "$ASSETS/bg_main"
-pdftoppm -png -singlefile -scale-to-x 2667 -scale-to-y 1500 ../graphics/titlepage_background_v3.pdf "$ASSETS/bg_title"
+pdftoppm -png -singlefile -scale-to-x 2667 -scale-to-y 1500 ../graphics/titlepage_background_v3.pdf "$ASSETS/bg_title_crns"
+pdftoppm -png -singlefile -scale-to-x 2667 -scale-to-y 1500 ../graphics/titlepage_background_v3_smarts.pdf "$ASSETS/bg_title_smarts"
 
 # Equations and figure: one PDF page each, rendered with a transparent background
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory="$ASSETS" equations.tex > /dev/null
@@ -31,4 +33,5 @@ pages=$(pdfinfo "$ASSETS/equations.pdf" | awk '/^Pages:/ {print $2}')
 # pdftocairo numbers pages eq-1.png ... or eq-01.png ... depending on the count
 for f in "$ASSETS"/eq-0*.png; do [ -e "$f" ] && mv "$f" "$ASSETS/eq-$(basename "$f" .png | sed 's/^eq-0*//').png"; done
 
-node build_pptx.js "$ASSETS" crns_template.pptx
+node build_pptx.js "$ASSETS" crns_template.pptx crns
+node build_pptx.js "$ASSETS" smarts_template.pptx smarts

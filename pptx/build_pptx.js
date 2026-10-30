@@ -1,7 +1,8 @@
-// Generates crns_template.pptx, the PowerPoint equivalent of the crns Beamer
+// Generates a .pptx template, the PowerPoint equivalent of the crns Beamer
 // theme (palette=darkred, header=transparent) and its showcase deck.
 //
-// Usage: node build_pptx.js <assets dir> <output.pptx>
+// Usage: node build_pptx.js <assets dir> <output.pptx> <crns|smarts>
+// The last argument selects the title page background.
 // Run through pptx/build.sh, which prepares the assets (backgrounds rendered
 // from graphics/*.pdf, equations and figure rendered from equations.tex).
 //
@@ -13,9 +14,9 @@ const fs = require("fs");
 const path = require("path");
 const pptxgen = require("pptxgenjs");
 
-const [assets, output] = process.argv.slice(2);
-if (!assets || !output) {
-  console.error("usage: node build_pptx.js <assets dir> <output.pptx>");
+const [assets, output, titleBackground] = process.argv.slice(2);
+if (!assets || !output || !["crns", "smarts"].includes(titleBackground)) {
+  console.error("usage: node build_pptx.js <assets dir> <output.pptx> <crns|smarts>");
   process.exit(1);
 }
 const asset = (name) => path.join(assets, name);
@@ -78,7 +79,7 @@ const progressTrack = (y) => ({ rect: { x: BAR.x, y, w: BAR.w, h: BAR.h, fill: {
 
 pres.defineSlideMaster({
   title: "CRNS Title",
-  background: { path: asset("bg_title.png") },
+  background: { path: asset(`bg_title_${titleBackground}.png`) },
   objects: [
     { placeholder: { options: { name: "title", type: "title", x: TEXT_X, y: 2.66, w: 8.75, h: 0.55, margin: 0,
         fontSize: SIZE.title, bold: true, color: C.text1, align: "left", valign: "top" }, text: "Presentation title" } },
