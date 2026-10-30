@@ -63,10 +63,17 @@
     progressbarextended/.code={\crns@enablesubsectionpage
                        \setbeamertemplate{subsection page}[progressbarextended]},
 }
+\pgfkeys{
+  /crns/inner/titlebackground/.cd,
+    .is choice,
+    crns/.code={\def\crns@titlebackground{graphics/titlepage_background_v3.pdf}},
+    smarts/.code={\def\crns@titlebackground{graphics/titlepage_background_v3_smarts.pdf}},
+}
 \newcommand{\crns@inner@setdefaults}{
   \pgfkeys{/crns/inner/.cd,
     sectionpage=progressbar,
-    subsectionpage=none
+    subsectionpage=none,
+    titlebackground=crns
   }
 }
 
@@ -102,7 +109,7 @@
   \vbox to 0pt {
   	%ABH removed the vertical space to align with page canvas
     \hspace*{-3.75em}
-    \includegraphics[width=\paperwidth, height=\paperheight]{graphics/titlepage_background_v3.pdf}
+    \includegraphics[width=\paperwidth, height=\paperheight]{\crns@titlebackground}
 }
 \nointerlineskip%
 }

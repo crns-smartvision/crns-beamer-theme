@@ -81,7 +81,8 @@ The theme draws the CRNS backgrounds from:
 | File | Used on |
 |---|---|
 | `graphics/main_background_v2.pdf` | every slide |
-| `graphics/titlepage_background_v3.pdf` | the title page |
+| `graphics/titlepage_background_v3.pdf` | the title page with `titlebackground=crns` |
+| `graphics/titlepage_background_v3_smarts.pdf` | the title page with `titlebackground=smarts` |
 
 These images are part of the CRNS visual identity and are **not
 distributed** in this repository. Add them to a `graphics/` folder next to
@@ -118,6 +119,7 @@ example `\crnsset{block=fill}`.
 | `palette` | `rose`, `darkred` | Color profile (see below) |
 | `header` | `filled`, `transparent` | Frame title on a colored band, or colored text |
 | `background` | `light`, `dark` | Text and page colors (`dark` is hidden by an opaque background image) |
+| `titlebackground` | `crns`, `smarts` | Background image of the title page |
 | `block` | `transparent`, `fill` | Block environments with or without a background |
 | `numbering` | `counter`, `none`, `fraction`, `shifted` | Frame number format |
 | `progressbar` | `none`, `head`, `frametitle`, `foot` | Position of the progress bar |
