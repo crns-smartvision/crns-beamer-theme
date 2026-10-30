@@ -147,9 +147,12 @@ listed above, and register `<name>` in the `palette` choice.
 
 `pptx/crns_template.pptx` is a PowerPoint template that matches the Beamer
 theme with `palette=darkred` and `header=transparent`. It contains the same
-17 showcase slides as `template.tex` (title page, sections, lists,
+17 showcase slides as `main.tex` (title page, sections, lists,
 mathematics, figures, tables, blocks), so you can copy elements from it
 instead of building them from scratch.
+
+`pptx/smarts_template.pptx` is a derivative one corresponding to `titlebackground=smarts`
+option for Smarts Lab presentation.
 
 ### Before you start: install Kurier
 
